@@ -1,0 +1,5 @@
+id,name,description
+1,John,"This has an unclosed quote
+2,Jane,"This is fine"
+3,Bob,"Another unclosed
+4,Alice,"Properly closed"
