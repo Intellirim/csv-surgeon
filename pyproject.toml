@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "csv-surgeon"
-version = "1.0.0"
+version = "1.1.0"
 description = "Intelligent CSV repair and sanitization for broken data files"
 readme = "README.md"
 authors = [{name = "Intellirim"}]

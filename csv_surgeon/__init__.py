@@ -1,6 +1,6 @@
 """CSV Surgeon - Intelligent CSV repair and sanitization for broken data files."""
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
 from csv_surgeon.exceptions import (
     UnrepairableFileError,

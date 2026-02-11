@@ -66,7 +66,8 @@ def repair(input_file, output_file, encoding, delimiter, sanitize_pii):
 
 @cli.command()
 @click.argument('input_file', type=click.Path(exists=True))
-def analyze(input_file):
+@click.option('--html', is_flag=True, help='Generate HTML report and open in browser')
+def analyze(input_file, html):
     """Analyze a CSV file and show diagnostics without repairing."""
     try:
         file_size = os.path.getsize(input_file)
@@ -109,6 +110,22 @@ def analyze(input_file):
         else:
             click.echo(f"  Inconsistent rows: 0")
         click.echo(f"  Unclosed quotes: {len(quote_issues)} pairs" if quote_issues else "  Unclosed quotes: 0")
+        if html:
+            import webbrowser
+            from csv_surgeon.report import export_html
+            preview = lines[:5] if lines else []
+            report_path = export_html(
+                file_path=input_file, file_size=file_size, total_lines=total_lines,
+                encoding_name=encoding_result.value, encoding_conf=encoding_result.confidence,
+                delimiter=delimiter_result.value, delimiter_conf=delimiter_result.confidence,
+                expected_cols=expected_columns,
+                column_mismatches=column_mismatches, quote_issues=quote_issues,
+                preview_lines=preview,
+            )
+            click.echo(f"Report saved: {report_path}")
+            webbrowser.open(f"file://{report_path}")
+            return
+
         click.echo()
         click.echo("Recommendation: Run with default repair")
     except Exception as e:
